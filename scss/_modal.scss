@@ -1,0 +1,41 @@
+.modal {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &--open {
+    display: flex;
+  }
+
+  &__content {
+    width: 400px;
+    min-height: 250px;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 12px;
+
+    background-image: url('../assets/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    text-align: center;
+  }
+
+  &__text {
+    margin: 0 0 20px;
+
+    font-size: 24px;
+    font-weight: 700;
+  }
+}

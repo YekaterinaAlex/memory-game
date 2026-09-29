@@ -9,17 +9,57 @@ const cardsImg = [
   'cat8',
 ];
 
-const cards = [...cardsImg, ...cardsImg];
-
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
 let moves = 0;
 let matchedPairs = 0;
 
+const header = document.createElement('header');
+header.classList.add('header');
+
+const newGameButton = document.createElement('button');
+newGameButton.classList.add('header__button');
+newGameButton.textContent = 'New Game';
+newGameButton.addEventListener('click', startGame);
+
+const leaderboardButton = document.createElement('button');
+leaderboardButton.classList.add('header__button');
+leaderboardButton.textContent = 'Leaderboard';
+
+header.append(newGameButton, leaderboardButton);
+document.body.append(header);
+
 const main = document.createElement('main');
 main.classList.add('game');
 document.body.append(main);
+
+const modal = document.createElement('div');
+modal.classList.add('modal');
+
+const modalContent = document.createElement('div');
+modalContent.classList.add('modal__content');
+
+const modalText = document.createElement('p');
+modalText.classList.add('modal__text');
+
+const modalNewGameButton = document.createElement('button');
+modalNewGameButton.textContent = 'New Game';
+modalNewGameButton.addEventListener('click', () => {
+  modal.classList.remove('modal--open');
+  startGame();
+});
+
+const modalCloseButton = document.createElement('button');
+modalCloseButton.textContent = 'Close';
+modalCloseButton.addEventListener('click', () => {
+  modal.classList.remove('modal--open');
+});
+
+modalContent.append(modalText, modalNewGameButton, modalCloseButton);
+
+modal.append(modalContent);
+document.body.append(modal);
 
 const title = document.createElement('h1');
 title.classList.add('game__title');
@@ -31,10 +71,12 @@ stats.classList.add('game__stats');
 main.append(stats);
 
 const movesCounter = document.createElement('p');
+movesCounter.classList.add('game__moves');
 movesCounter.textContent = `Moves: ${moves}`;
 stats.append(movesCounter);
 
 const matched = document.createElement('p');
+matched.classList.add('game__matches');
 matched.textContent = `Matched: ${matchedPairs}`;
 stats.append(matched);
 
@@ -42,14 +84,6 @@ const winModal = document.createElement('p');
 winModal.classList.add('game__win');
 winModal.textContent = '';
 main.append(winModal);
-
-const restartButton = document.createElement('button');
-restartButton.classList.add('game__restart');
-restartButton.textContent = 'Restart Game';
-main.append(restartButton);
-restartButton.addEventListener('click', () => {
-  location.reload();
-});
 
 const board = document.createElement('div');
 board.classList.add('game__board');
@@ -102,7 +136,8 @@ function createCard(cardName) {
       matched.textContent = `Matched: ${matchedPairs}`;
 
       if (matchedPairs === cardsImg.length) {
-        winModal.textContent = `You win in ${moves} moves!`;
+        modalText.textContent = `You win in ${moves} moves!`;
+        modal.classList.add('modal--open');
       }
 
       resetCards();
@@ -129,15 +164,35 @@ function shuffleCards(cards) {
   return cards;
 }
 
-const shuffled = shuffleCards(cards);
+function startGame() {
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
 
-shuffled.forEach((cardName) => {
-  const card = createCard(cardName);
-  board.append(card);
-});
+  moves = 0;
+  matchedPairs = 0;
+
+  modal.classList.remove('modal--open');
+
+  movesCounter.textContent = `Moves: ${moves}`;
+  matched.textContent = `Matches: ${matchedPairs}`;
+  winModal.textContent = '';
+
+  board.replaceChildren();
+
+  const cards = [...cardsImg, ...cardsImg];
+  const shuffledCards = shuffleCards(cards);
+
+  shuffledCards.forEach((cardName) => {
+    const card = createCard(cardName);
+    board.append(card);
+  });
+}
 
 function resetCards() {
   firstCard = null;
   secondCard = null;
   lockBoard = false;
 }
+
+startGame();
