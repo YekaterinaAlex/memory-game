@@ -14,6 +14,8 @@ const cards = [...cardsImg, ...cardsImg];
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
+let moves = 0;
+let matchedPairs = 0;
 
 const main = document.createElement('main');
 main.classList.add('game');
@@ -23,6 +25,31 @@ const title = document.createElement('h1');
 title.classList.add('game__title');
 title.textContent = 'Memory Game';
 main.append(title);
+
+const stats = document.createElement('div');
+stats.classList.add('game__stats');
+main.append(stats);
+
+const movesCounter = document.createElement('p');
+movesCounter.textContent = `Moves: ${moves}`;
+stats.append(movesCounter);
+
+const matched = document.createElement('p');
+matched.textContent = `Matched: ${matchedPairs}`;
+stats.append(matched);
+
+const winModal = document.createElement('p');
+winModal.classList.add('game__win');
+winModal.textContent = '';
+main.append(winModal);
+
+const restartButton = document.createElement('button');
+restartButton.classList.add('game__restart');
+restartButton.textContent = 'Restart Game';
+main.append(restartButton);
+restartButton.addEventListener('click', () => {
+  location.reload();
+});
 
 const board = document.createElement('div');
 board.classList.add('game__board');
@@ -65,10 +92,18 @@ function createCard(cardName) {
       return;
     }
     secondCard = card;
+    moves++;
+    movesCounter.textContent = `Moves: ${moves}`;
 
     if (firstCard.dataset.name === secondCard.dataset.name) {
       firstCard.classList.add('card--matched');
       secondCard.classList.add('card--matched');
+      matchedPairs++;
+      matched.textContent = `Matched: ${matchedPairs}`;
+
+      if (matchedPairs === cardsImg.length) {
+        winModal.textContent = `You win in ${moves} moves!`;
+      }
 
       resetCards();
     } else {
