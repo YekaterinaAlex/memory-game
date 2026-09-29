@@ -11,6 +11,10 @@ const cardsImg = [
 
 const cards = [...cardsImg, ...cardsImg];
 
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
+
 const main = document.createElement('main');
 main.classList.add('game');
 document.body.append(main);
@@ -27,6 +31,7 @@ main.append(board);
 function createCard(cardName) {
   const card = document.createElement('div');
   card.classList.add('card');
+  card.dataset.name = cardName;
 
   const cardInner = document.createElement('div');
   cardInner.classList.add('card__inner');
@@ -49,7 +54,33 @@ function createCard(cardName) {
   card.append(cardInner);
 
   card.addEventListener('click', () => {
-    card.classList.toggle('card--flipped');
+    if (lockBoard) return;
+    if (card === firstCard) return;
+    if (card.classList.contains('card--matched')) return;
+
+    card.classList.add('card--flipped');
+
+    if (!firstCard) {
+      firstCard = card;
+      return;
+    }
+    secondCard = card;
+
+    if (firstCard.dataset.name === secondCard.dataset.name) {
+      firstCard.classList.add('card--matched');
+      secondCard.classList.add('card--matched');
+
+      resetCards();
+    } else {
+      lockBoard = true;
+
+      setTimeout(() => {
+        firstCard.classList.remove('card--flipped');
+        secondCard.classList.remove('card--flipped');
+
+        resetCards();
+      }, 1000);
+    }
   });
 
   return card;
@@ -69,3 +100,9 @@ shuffled.forEach((cardName) => {
   const card = createCard(cardName);
   board.append(card);
 });
+
+function resetCards() {
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+}
