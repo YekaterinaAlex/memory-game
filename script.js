@@ -87,11 +87,6 @@ matched.classList.add('game__matches');
 matched.textContent = `Matched: ${matchedPairs}`;
 stats.append(matched);
 
-const winModal = document.createElement('p');
-winModal.classList.add('game__win');
-winModal.textContent = '';
-main.append(winModal);
-
 const board = document.createElement('div');
 board.classList.add('game__board');
 main.append(board);
@@ -172,10 +167,12 @@ function createCard(cardName) {
       firstCard.classList.add('card--matched');
       secondCard.classList.add('card--matched');
       matchedPairs++;
-      matched.textContent = `Matched: ${matchedPairs}`;
+      matched.textContent = `Matches: ${matchedPairs}`;
 
       if (matchedPairs === cardsImg.length) {
         modalText.textContent = `You win in ${moves} moves!`;
+
+        saveResult();
         modal.classList.add('modal--open');
       }
 
@@ -215,7 +212,6 @@ function startGame() {
 
   movesCounter.textContent = `Moves: ${moves}`;
   matched.textContent = `Matches: ${matchedPairs}`;
-  winModal.textContent = '';
 
   board.replaceChildren();
 
@@ -232,6 +228,14 @@ function resetCards() {
   firstCard = null;
   secondCard = null;
   lockBoard = false;
+}
+
+function saveResult() {
+  const results = JSON.parse(localStorage.getItem(results)) || [];
+  results.push(moves);
+  results.sort((a, b) => a - b);
+  const topResults = results.slice(0, 10);
+  localStorage.setItem('results', JSON.stringify(topResults));
 }
 
 startGame();
