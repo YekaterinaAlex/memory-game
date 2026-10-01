@@ -96,6 +96,38 @@ const board = document.createElement('div');
 board.classList.add('game__board');
 main.append(board);
 
+const leaderboardModal = document.createElement('div');
+leaderboardModal.classList.add('modal');
+const leaderboardContent = document.createElement('div');
+leaderboardContent.classList.add('modal__content');
+
+const leaderboardTitle = document.createElement('h2');
+leaderboardTitle.classList.add('modal__title');
+leaderboardTitle.textContent = 'Leaderboard';
+
+const leaderboardList = document.createElement('ol');
+leaderboardList.classList.add('modal__list');
+
+const leaderboardCloseButton = document.createElement('button');
+leaderboardCloseButton.classList.add('modal__button');
+leaderboardCloseButton.textContent = 'Close';
+
+leaderboardContent.append(
+  leaderboardTitle,
+  leaderboardList,
+  leaderboardCloseButton
+);
+
+leaderboardButton.addEventListener('click', () => {
+  leaderboardModal.classList.add('modal--open');
+});
+leaderboardCloseButton.addEventListener('click', () => {
+  leaderboardModal.classList.remove('modal--open');
+});
+
+leaderboardModal.append(leaderboardContent);
+document.body.append(leaderboardModal);
+
 function createCard(cardName) {
   const card = document.createElement('div');
   card.classList.add('card');
