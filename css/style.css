@@ -16,12 +16,6 @@ body {
   align-items: center;
   background-color: #f5f5f5;
 }
-.game__title {
-  margin: 0 0 30px;
-  font-size: 48px;
-  font-weight: 700;
-  text-align: center;
-}
 .game__stats {
   display: flex;
   gap: 30px;
@@ -80,19 +74,34 @@ body {
 .header {
   padding: 20px 30px;
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+}
+.header__title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+.header__actions {
+  display: flex;
+  gap: 16px;
 }
 .header__button {
-  padding: 10px 20px;
+  padding: 10px 18px;
   border: none;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 .header__button:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.header__button:active {
+  transform: scale(0.98);
 }
 
 .modal {
@@ -125,6 +134,20 @@ body {
   margin: 0 0 20px;
   font-size: 24px;
   font-weight: 700;
+}
+.modal__button {
+  min-width: 120px;
+  padding: 10px 18px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.modal__button:hover {
+  transform: scale(1.05);
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -18,6 +18,14 @@ let matchedPairs = 0;
 const header = document.createElement('header');
 header.classList.add('header');
 
+const title = document.createElement('h1');
+title.classList.add('header__title');
+title.textContent = 'Memory Game';
+header.append(title);
+
+const headerActions = document.createElement('div');
+headerActions.classList.add('header__actions');
+
 const newGameButton = document.createElement('button');
 newGameButton.classList.add('header__button');
 newGameButton.textContent = 'New Game';
@@ -27,7 +35,9 @@ const leaderboardButton = document.createElement('button');
 leaderboardButton.classList.add('header__button');
 leaderboardButton.textContent = 'Leaderboard';
 
-header.append(newGameButton, leaderboardButton);
+headerActions.append(newGameButton, leaderboardButton);
+header.append(headerActions);
+
 document.body.append(header);
 
 const main = document.createElement('main');
@@ -44,6 +54,7 @@ const modalText = document.createElement('p');
 modalText.classList.add('modal__text');
 
 const modalNewGameButton = document.createElement('button');
+modalNewGameButton.classList.add('modal__button');
 modalNewGameButton.textContent = 'New Game';
 modalNewGameButton.addEventListener('click', () => {
   modal.classList.remove('modal--open');
@@ -51,6 +62,7 @@ modalNewGameButton.addEventListener('click', () => {
 });
 
 const modalCloseButton = document.createElement('button');
+modalCloseButton.classList.add('modal__button');
 modalCloseButton.textContent = 'Close';
 modalCloseButton.addEventListener('click', () => {
   modal.classList.remove('modal--open');
@@ -60,11 +72,6 @@ modalContent.append(modalText, modalNewGameButton, modalCloseButton);
 
 modal.append(modalContent);
 document.body.append(modal);
-
-const title = document.createElement('h1');
-title.classList.add('game__title');
-title.textContent = 'Memory Game';
-main.append(title);
 
 const stats = document.createElement('div');
 stats.classList.add('game__stats');
