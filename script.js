@@ -114,6 +114,7 @@ leaderboardContent.append(
 );
 
 leaderboardButton.addEventListener('click', () => {
+  renderLeaderboard();
   leaderboardModal.classList.add('modal--open');
 });
 leaderboardCloseButton.addEventListener('click', () => {
@@ -231,11 +232,31 @@ function resetCards() {
 }
 
 function saveResult() {
-  const results = JSON.parse(localStorage.getItem(results)) || [];
+  const results = JSON.parse(localStorage.getItem('results')) || [];
   results.push(moves);
   results.sort((a, b) => a - b);
   const topResults = results.slice(0, 10);
   localStorage.setItem('results', JSON.stringify(topResults));
+}
+
+function renderLeaderboard() {
+  const results = JSON.parse(localStorage.getItem('results')) || [];
+  leaderboardList.replaceChildren();
+
+  if (results.length === 0) {
+    const item = document.createElement('li');
+    item.textContent = 'No results yet';
+
+    leaderboardList.append(item);
+    return;
+  }
+
+  results.forEach((result) => {
+    const item = document.createElement('li');
+    item.textContent = `${result} moves`;
+
+    leaderboardList.append(item);
+  });
 }
 
 startGame();
