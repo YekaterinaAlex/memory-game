@@ -1,5 +1,5 @@
 .game {
-  min-height: 100vh;
+  flex: 1;
   padding: 30px;
 
   display: flex;
@@ -17,21 +17,37 @@
   &__moves,
   &__matches {
     margin: 0;
+
     font-size: 20px;
     font-weight: 600;
   }
 
   &__board {
+    width: 100%;
+    max-width: 516px;
+
     display: grid;
-    grid-template-columns: repeat(4, 120px);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
   }
+}
 
-  &__win {
-    margin: 20px 0 0;
+@media (max-width: 600px) {
+  .game {
+    padding: 16px;
 
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
+    &__board {
+      max-width: 320px;
+      gap: 8px;
+    }
+
+    &__stats {
+      gap: 16px;
+    }
+
+    &__moves,
+    &__matches {
+      font-size: 16px;
+    }
   }
 }
