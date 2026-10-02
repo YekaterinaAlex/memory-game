@@ -14,6 +14,7 @@ let secondCard = null;
 let lockBoard = false;
 let moves = 0;
 let matchedPairs = 0;
+let flipTimeout = null;
 
 const header = document.createElement('header');
 header.classList.add('header');
@@ -209,6 +210,11 @@ function startGame() {
   moves = 0;
   matchedPairs = 0;
 
+  if (flipTimeout) {
+    clearTimeout(flipTimeout);
+    flipTimeout = null;
+  }
+
   modal.classList.remove('modal--open');
 
   movesCounter.textContent = `Moves: ${moves}`;
@@ -234,8 +240,10 @@ function resetCards() {
 function saveResult() {
   const results = JSON.parse(localStorage.getItem('results')) || [];
   results.push(moves);
-  results.sort((a, b) => a - b);
-  const topResults = results.slice(0, 10);
+  const uniqueResults = [...new Set(results)];
+
+  uniqueResults.sort((a, b) => a - b);
+  const topResults = uniqueResults.slice(0, 10);
   localStorage.setItem('results', JSON.stringify(topResults));
 }
 
@@ -258,5 +266,13 @@ function renderLeaderboard() {
     leaderboardList.append(item);
   });
 }
+
+flipTimeout = setTimeout(() => {
+  firstCard.classList.remove('card--flipped');
+  secondCard.classList.remove('card--flipped');
+
+  resetCards();
+  flipTimeout = null;
+}, 1000);
 
 startGame();
